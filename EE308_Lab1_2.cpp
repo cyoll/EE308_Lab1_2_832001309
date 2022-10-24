@@ -136,7 +136,7 @@ void test234(int cnumber, char a[], int fnumber, char b[], int lv) {
 		cout << "case num:";
 		for (int i = 0; i < switchnum; i++)
 			cout << casenum[i] << " ";
-		if (lv > 3) {
+		if (lv > 2) {
 			cout << "\nif_else:" << ienum;
 			if (lv > 3)
 				cout << "\nif_elseif_else:" << ieenum;
@@ -164,7 +164,7 @@ int main() {
 	int lv;
 	cout << "Please choose the completion level (from low to high as 1, 2, 3, 4):";
 	cin >> lv;
-	char a[1000], b[2000], c;
+	char a[1000], b[2000], c,b1[2000];
 	int fnumber = 0, cnumber = 0;
 	while ((c = ifs.get()) != EOF) {
 		if (isalpha(c)) { //将所有字母存进a数组
@@ -174,7 +174,10 @@ int main() {
 		b[fnumber] = c; //为文件中所有字符创建字符数组
 		fnumber++;
 	}
-	test1(fnumber, b);
+	for(int i=0;i<fnumber;i++){
+		b1[i]=b[i];
+	}
+	test1(fnumber, b1);
 	test234(cnumber, a, fnumber, b, lv);
 	ifs.close();
 	return 0;
