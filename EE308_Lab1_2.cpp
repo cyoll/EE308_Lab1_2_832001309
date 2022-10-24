@@ -28,6 +28,7 @@ void test1(int n, char b[]) {
 		if (!isalpha(b[i]))
 			b[i] = ' ';
 	}
+
 	char p[] = " ";
 	int buflen = 0;
 	char *result = NULL;
@@ -109,7 +110,9 @@ void test234(int cnumber, char a[], int fnumber, char b[], int lv) {
 			int temp;
 			int left = 0, right = 0;
 			for (int k = index; k <= fnumber; k++) {
-				if (b[k] == 'e' && b[k + 1] == 'l' && b[k + 2] == 's' && b[k + 3] == 'e' && b[k + 6] == 'i' && b[k + 7] == 'f') { //如果if 后面的第一个else是else if，则退出循环寻找下一个if
+				if (b[k] == 'e' && b[k + 1] == 'l' && b[k + 2] == 's' && b[k + 3] == 'e' && b[k + 6] == 'i' && b[k + 7] == 'f') { 
+					//如果if 后面的第一个else是else if
+					//则退出循环寻找下一个if
 					temp = 0; //这种情况的标志是temp=0
 					break;
 				} else if (b[k] == 'e' && b[k + 1] == 'l' && b[k + 2] == 's' && b[k + 3] == 'e') { //else的索引位
@@ -117,17 +120,17 @@ void test234(int cnumber, char a[], int fnumber, char b[], int lv) {
 					break;
 				}
 			}
-			if (temp == 0)
-				continue;
-			else {
-				for (int j = index; j <= temp; j++) { //计算相邻的if和else之间左右大括号的数量
+			if (temp != 0) {
+				for (int j = index; j <= temp; j++) { 
+					//计算相邻的if和else之间左右大括号的数量
 					if (b[j] == '{')
 						left++;
 					if (b[j] == '}')
 						right++;
 				}
 			}
-			if (left == right) //在相邻if和else之间若左右大括号数量相等，则存在一个if_else结构
+			if (left == right) 
+				//在相邻if和else之间若左右大括号数量相等，则存在一个if_else结构
 				ienum++;
 		}
 	}
@@ -136,7 +139,7 @@ void test234(int cnumber, char a[], int fnumber, char b[], int lv) {
 		cout << "case num:";
 		for (int i = 0; i < switchnum; i++)
 			cout << casenum[i] << " ";
-		if (lv > 3) {
+		if (lv > 2) {
 			cout << "\nif_else:" << ienum;
 			if (lv > 3)
 				cout << "\nif_elseif_else:" << ieenum;
@@ -154,7 +157,7 @@ int main() {
 		cout << "Please enter the file path:";
 		cin >> fname;
 		//打开文件并且判断是否打开成功
-		ifs.open(fname, ios::in) ;
+		ifs.open(fname.c_str(), ios::in) ;//这边文件名的后缀要加，不然会出现编译报错 
 		temp = 1;
 		if (!ifs.is_open()) {
 			temp = 0;
@@ -164,7 +167,7 @@ int main() {
 	int lv;
 	cout << "Please choose the completion level (from low to high as 1, 2, 3, 4):";
 	cin >> lv;
-	char a[1000], b[2000], c;
+	char a[1000], b[2000], c,b1[2000];
 	int fnumber = 0, cnumber = 0;
 	while ((c = ifs.get()) != EOF) {
 		if (isalpha(c)) { //将所有字母存进a数组
@@ -174,7 +177,10 @@ int main() {
 		b[fnumber] = c; //为文件中所有字符创建字符数组
 		fnumber++;
 	}
-	test1(fnumber, b);
+	for(int i=0;i<fnumber;i++){
+		b1[i]=b[i];
+	}
+	test1(fnumber, b1);
 	test234(cnumber, a, fnumber, b, lv);
 	ifs.close();
 	return 0;
