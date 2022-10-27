@@ -10,7 +10,7 @@
 #include <string>
 #include <string.h>
 using namespace std;
-
+//D:\sy\2022-2023\EE308软件工程\lab\LAB1\testfile.cpp
 const string Keyword[32] = { //关键字数组
 	"auto", "break", "case", "char",
 	"const", "continue", "default", "do",
@@ -85,13 +85,13 @@ void test234(int cnumber, char a[], int fnumber, char b[], int lv) {
 	}
 	int index;
 	for (int i = 0; i <= fnumber; i++) {
-		if (b[i] == 'e' && b[i + 1] == 'l' && b[i + 2] == 's' && b[i + 3] == 'e' && b[i + 6] == 'i' && b[i + 7] == 'f') {
+		if (b[i] == 'e' && b[i + 1] == 'l' && b[i + 2] == 's' && b[i + 3] == 'e' && b[i + 5] == 'i' && b[i + 6] == 'f') {
 			index = i;
 			break;//index是第一个else if的位置
 		}
 	}
 	for (int i = index; i <= fnumber; i++) { //遍历整个文档
-		if (b[i] == 'e' && b[i + 1] == 'l' && b[i + 2] == 's' && b[i + 3] == 'e' && b[i + 6] == 'i' && b[i + 7] == 'f') { //找到下一个相邻的else if
+		if (b[i] == 'e' && b[i + 1] == 'l' && b[i + 2] == 's' && b[i + 3] == 'e' && b[i + 5] == 'i' && b[i + 6] == 'f') { //找到下一个相邻的else if
 			int left = 0, right = 0;
 			for (int j = index; j <= i; j++) { //计算两者之间左右大括号的数量
 				if (b[j] == '{')
@@ -105,12 +105,12 @@ void test234(int cnumber, char a[], int fnumber, char b[], int lv) {
 	}
 	index = 0;
 	for (int i = index; i <= fnumber; i++) {
-		if (b[i] == 'i' && b[i + 1] == 'f' && (b[i - 3] != 'e' || b[i - 4] != 's' || b[i - 5] != 'l' || b[i - 6] != 'e')) {
+		if (b[i] == 'i' && b[i + 1] == 'f' && (b[i - 2] != 'e' || b[i - 3] != 's' || b[i - 4] != 'l' || b[i - 5] != 'e')) {
 			index = i; //if的索引位
 			int temp;
 			int left = 0, right = 0;
 			for (int k = index; k <= fnumber; k++) {
-				if (b[k] == 'e' && b[k + 1] == 'l' && b[k + 2] == 's' && b[k + 3] == 'e' && b[k + 6] == 'i' && b[k + 7] == 'f') { 
+				if (b[k] == 'e' && b[k + 1] == 'l' && b[k + 2] == 's' && b[k + 3] == 'e' && b[k + 5] == 'i' && b[k + 6] == 'f') { 
 					//如果if 后面的第一个else是else if
 					//则退出循环寻找下一个if
 					temp = 0; //这种情况的标志是temp=0
@@ -128,10 +128,11 @@ void test234(int cnumber, char a[], int fnumber, char b[], int lv) {
 					if (b[j] == '}')
 						right++;
 				}
+				if (left == right) 
+					//在相邻if和else之间若左右大括号数量相等，则存在一个if_else结构
+					ienum++;
 			}
-			if (left == right) 
-				//在相邻if和else之间若左右大括号数量相等，则存在一个if_else结构
-				ienum++;
+			
 		}
 	}
 	if (lv > 1) {
@@ -148,6 +149,9 @@ void test234(int cnumber, char a[], int fnumber, char b[], int lv) {
 }
 
 int main() {
+	clock_t start, finish;
+	double duration;
+	start = clock();
 	int temp = 0;
 	//创建流对象
 	ifstream ifs;
@@ -182,6 +186,9 @@ int main() {
 	}
 	test1(fnumber, b1);
 	test234(cnumber, a, fnumber, b, lv);
+	duration = (double)(finish - start) / CLOCKS_PER_SEC;
+	cout << "\nTime = ";
+	printf("%f seconds\n", duration);
 	ifs.close();
 	return 0;
 }
